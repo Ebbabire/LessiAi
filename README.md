@@ -44,7 +44,7 @@ src/
 ├── App.tsx
 ├── main.tsx
 └── router.tsx                  # Application routing configuration (React Router v7)
-
+```
 
 ## 📦 Setup & Usage
 
@@ -114,4 +114,7 @@ In **Abdul's** structure, specific sub-components like `FlagsSection` and `Summa
 **Abdul's** structure broke the `RecommendationPanel` down into smaller pieces (`FlagsSection`, `RecommendationItem`) which is a better approach than **Mine (Ebba's)**.
 
 **Decision**: I keept the Folder Structure of **Mine (Ebba's)**, but adopt the internal modularity of **Abdul's** by breaking complex components down.
+
+```
+
 ```
