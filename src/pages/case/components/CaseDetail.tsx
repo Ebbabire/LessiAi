@@ -1,6 +1,6 @@
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import type { Case } from "@/type";
-import { RecommendationsPanel } from "./RecommendationPanel";
+import { RecommendationsPanel } from "./RecommendationPanel/RecommendationPanel";
 import { MOCKED_RECOMMENDATIONS } from "@/data";
 
 interface CaseDetailProps {
