@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { FileBraces } from "lucide-react";
 
-import CaseDetail from "./components/CaseDetail";
 import { mockCases } from "@/data";
 import CaseList from "./components/CaseList";
+import { CaseDetail } from "./components/CaseDetail";
 
 const Cases = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null);

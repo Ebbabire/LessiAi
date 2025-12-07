@@ -1,24 +1,18 @@
 import { useEffect, useState } from "react";
 import { useDebounce } from "@/hooks/useDebounce";
-import {
-  Copy,
-  Check,
-  Stethoscope,
-  AlertCircle,
-  AlertTriangle,
-} from "lucide-react";
-import ClinicalFlag from "@/pages/case/components/RecommendationPanel/ClinicalFlag";
 
-import type { ClinicalData } from "@/type";
-import { RecommendationCard } from "./RecommendationCard";
 import RecommendationsPanelLoading from "./RecommendationPanel_loading";
+import CaseSummay from "./CaseSummay";
+import { ProfileIntelPanel } from "./ProfileIntelPanel/ProfileIntelPanel";
+import { ReasoningPanel } from "./ReasoningPanel/ReasoningPanel";
+import { TreatmentPanel } from "./TreatmentPanel/TreatmentPanel";
+import { OpsIntelPanel } from "./OpsIntelPanel/OpsIntelPanel";
+import { AlertTriangle } from "lucide-react";
+import { MOCKED_RECOMMENDATIONS } from "@/data";
 
-interface RecommendationsPanelProps {
-  data: ClinicalData;
-}
+const data = MOCKED_RECOMMENDATIONS;
 
-export const RecommendationsPanel = ({ data }: RecommendationsPanelProps) => {
-  const [copied, setCopied] = useState(false);
+export const RecommendationsPanel = () => {
   const [summary, setSummary] = useState(data.summary);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -48,74 +42,24 @@ export const RecommendationsPanel = ({ data }: RecommendationsPanelProps) => {
     };
 
     runCheck();
-  }, [debouncedValue, data.summary]);
-
-  const handleCopy = () => {
-    const textToCopy = `Summary: ${summary}\n\nRecommendations:\n${data.recommendations
-      .map((r) => `- ${r.title}: ${r.value}`)
-      .join("\n")}\n\nFlags: ${data.flags.join(", ")}`;
-    navigator.clipboard.writeText(textToCopy);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  }, [debouncedValue]);
 
   return (
     <div className="p-4">
       {/* Summary Section */}
-      <section>
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-3">
-            <h3 className="text-sm font-semibold text-slate-500  uppercase tracking-wide flex items-center gap-2">
-              <Stethoscope size={16} />
-              Case Summary
-            </h3>
-          </div>
-
-          {/* Tooltip Wrapper */}
-          <div className="relative group/tooltip">
-            <button
-              onClick={handleCopy}
-              className="flex items-center gap-1.5 text-xs font-medium text-slate-300 hover:text-slate-200 dark:text-slate-700 dark:hover:text-slate-800 transition-colors"
-              aria-label="Copy notes"
-            >
-              {copied ? (
-                <Check size={14} className="text-emerald-500" />
-              ) : (
-                <Copy size={14} />
-              )}
-              <span
-                className={
-                  copied ? "text-emerald-600 dark:text-emerald-500" : ""
-                }
-              >
-                {copied ? "Copied" : "Copy Notes"}
-              </span>
-            </button>
-          </div>
-        </div>
-
-        <div
-          className={`relative rounded-lg border transition-all duration-200 mb-3 ${
-            loading
-              ? "bg-slate-50 border-slate-200  opacity-70 cursor-wait"
-              : error
-              ? "bg-red-50 border-red-300"
-              : "border-blue-300 hover:border-blue-400  focus-within:ring-2 focus-within:ring-blue-300 focus-within:border-indigo-300"
-          }`}
-        >
-          <textarea
-            title="summary"
-            value={summary}
-            onChange={(e) => setSummary(e.target.value)}
-            disabled={loading} // Optional: keep enabled if you want to allow typing while debouncing
-            className={`w-full  p-4 text-slate-700 leading-relaxed resize-none focus:outline-none rounded-lg ${
-              loading ? "cursor-wait" : ""
-            }`}
-            rows={2}
-            spellCheck={false}
-          ></textarea>
-        </div>
-      </section>
+      <CaseSummay
+        data={data}
+        error={error}
+        loading={loading}
+        setSummary={setSummary}
+        summary={summary}
+      />
+      <div className="flex items-center justify-between px-1">
+        <h2 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+          Intelligence Layers
+        </h2>
+        <ProfileIntelPanel />
+      </div>
 
       {/* Content Area: Logic for Loading / Error / Data */}
       {loading ? (
@@ -129,34 +73,19 @@ export const RecommendationsPanel = ({ data }: RecommendationsPanelProps) => {
           <p className="text-red-500 text-sm leading-relaxed">{error}</p>
         </div>
       ) : (
-        <>
-          {/* Recommendations Grid */}
-          <section className="animate-in fade-in duration-500 mb-4">
-            <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-4 flex items-center gap-2">
-              Plan & Dosage
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {data.recommendations.map((rec, index) => (
-                <RecommendationCard key={index} item={rec} />
-              ))}
-            </div>
-          </section>
+        <div>
+          {/* Intelligence Accordion Dashboard */}
+          <div className="flex flex-col gap-3 my-4">
+            {/* Phase 2: Reasoning */}
+            <ReasoningPanel />
 
-          {/* Flags Section */}
-          <section className="animate-in fade-in duration-500 delay-100">
-            <div className="flex items-center gap-2 mb-3">
-              <AlertCircle size={16} className="text-slate-500" />
-              <h3 className="text-sm font-semibold text-slate-500  uppercase tracking-wide">
-                Clinical Flags
-              </h3>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              {data.flags.map((flag, index) => (
-                <ClinicalFlag key={index} flag={flag} />
-              ))}
-            </div>
-          </section>
-        </>
+            {/* Phase 3: Treatment */}
+            <TreatmentPanel />
+
+            {/* Phase 4: Ops */}
+            <OpsIntelPanel />
+          </div>
+        </div>
       )}
     </div>
   );
