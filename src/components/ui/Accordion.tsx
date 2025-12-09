@@ -7,14 +7,14 @@ interface AccordionProps {
   icon?: React.ReactNode;
 }
 
-export const Accordion: React.FC<AccordionProps> = ({
+export const Accordion = ({
   title,
   summary,
   isOpen,
   onToggle,
   children,
   icon,
-}) => {
+}: AccordionProps) => {
   return (
     <div className="border border-slate-200 rounded-lg bg-white shadow-sm overflow-hidden transition-all duration-200">
       <button

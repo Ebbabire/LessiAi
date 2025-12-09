@@ -1,53 +1,40 @@
-import { Accordion } from "@/components/ui/Accordion";
+import { PanelShell } from "@/components/ui/PanelShell";
 import { useCaseContext } from "@/hooks/useCaseContext";
+import type { ClinicalAIResponse } from "@/type/intelligence";
 
-export const ReasoningPanel: React.FC = () => {
-  const {
-    activeReasoningTrace,
-    setActiveReasoningTrace,
-    expandedPanels,
-    togglePanel,
-  } = useCaseContext();
+interface ReasoningPanelProps {
+  aiResponse: ClinicalAIResponse | null;
+  isLoading?: boolean;
+}
 
-  const differentials = [
-    {
-      id: "dx-1",
-      name: "Acute Gastroenteritis",
-      confidence: 88,
-      trace: "Matches vomiting history + lack of fever.",
-    },
-    {
-      id: "dx-2",
-      name: "Dietary Indiscretion",
-      confidence: 65,
-      trace: "Common in young canines, matches symptoms.",
-    },
-    {
-      id: "dx-3",
-      name: "Pancreatitis",
-      confidence: 12,
-      trace: "Unlikely due to age and lack of abdominal pain signal.",
-    },
-  ];
+export const ReasoningPanel = ({
+  aiResponse,
+  isLoading,
+}: ReasoningPanelProps) => {
+  const { expandedPanels, togglePanel } = useCaseContext();
+
+  if (isLoading || !aiResponse) return null;
+
+  const { differentials, redFlags, summary } = aiResponse;
+  const primaryDx = differentials[0];
+  const otherDx = differentials.slice(1);
 
   return (
-    <Accordion
+    <PanelShell
       title="Clinical Reasoning"
-      summary="3 Differentials Identified (High Confidence)"
-      isOpen={expandedPanels["reasoning"]}
+      isExpanded={expandedPanels["reasoning"]}
       onToggle={() => togglePanel("reasoning")}
       icon={
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="18"
-          height="18"
+          width="16"
+          height="16"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="text-blue-500"
         >
           <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
           <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
@@ -55,70 +42,70 @@ export const ReasoningPanel: React.FC = () => {
       }
     >
       <div className="space-y-4">
-        <div className="flex items-center justify-between text-xs text-slate-500 mb-2">
-          <span>Differential Diagnosis Model v2.1</span>
-          <span className="text-emerald-600 font-medium">High Confidence</span>
+        {/* Primary Diagnosis */}
+        <div>
+          <span className="text-xs font-bold text-[#27AE60] uppercase tracking-wider block mb-1">
+            Primary Consideration
+          </span>
+          <div className="text-lg font-bold text-[#F2F2F2] flex items-center gap-2">
+            {primaryDx}
+            <span className="inline-flex h-2 w-2 rounded-full bg-[#27AE60] animate-pulse"></span>
+          </div>
+          <p className="text-sm text-[#9BA3AF] mt-1">{summary}</p>
         </div>
 
-        <div className="space-y-3">
-          {differentials.map((dx) => (
-            <div
-              key={dx.id}
-              className="border border-slate-100 rounded-md p-3 hover:bg-slate-50 transition-colors"
-            >
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-medium text-slate-800">{dx.name}</span>
-                <div className="flex items-center gap-2">
-                  <div className="h-1.5 w-16 bg-slate-100 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-blue-500 rounded-full"
-                      style={{ width: `${dx.confidence}%` }}
-                    ></div>
-                  </div>
-                  <span className="text-xs font-mono text-slate-600">
-                    {dx.confidence}%
-                  </span>
-                </div>
-              </div>
-
-              <button
-                onClick={() =>
-                  setActiveReasoningTrace(
-                    activeReasoningTrace === dx.id ? null : dx.id
-                  )
-                }
-                className="text-xs text-blue-600 hover:text-blue-800 flex items-center gap-1 font-medium"
+        {/* Red Flags */}
+        {redFlags && redFlags.length > 0 && (
+          <div className="bg-[#0D0F12] border border-[#EB5757]/40 p-3 rounded-lg">
+            <div className="flex items-center gap-2 mb-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-[#EB5757]"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="12" x2="12" y1="16" y2="12" />
-                  <line x1="12" x2="12.01" y1="8" y2="8" />
-                </svg>
-                {activeReasoningTrace === dx.id ? "Hide Reasoning" : "Explain"}
-              </button>
-
-              {activeReasoningTrace === dx.id && (
-                <div className="mt-2 text-xs text-slate-600 bg-blue-50/50 p-2 rounded border border-blue-100 animate-in fade-in">
-                  <span className="font-semibold text-blue-900">
-                    AI Trace:{" "}
-                  </span>
-                  {dx.trace}
-                </div>
-              )}
+                <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+                <line x1="12" x2="12" y1="9" y2="13" />
+                <line x1="12" x2="12.01" y1="17" y2="17" />
+              </svg>
+              <span className="text-xs font-bold text-[#EB5757] uppercase">
+                Red Flags
+              </span>
             </div>
-          ))}
-        </div>
+            <ul className="list-disc list-inside text-sm text-[#F2F2F2] space-y-1">
+              {redFlags.map((flag, idx) => (
+                <li key={idx}>{flag}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Differentials List */}
+        {otherDx.length > 0 && (
+          <div className="border-t border-[#2A2F33] pt-3">
+            <span className="text-xs font-semibold text-[#9BA3AF] uppercase mb-2 block">
+              Differentials
+            </span>
+            <ul className="space-y-2">
+              {otherDx.map((dx, idx) => (
+                <li
+                  key={idx}
+                  className="flex items-center text-sm text-[#F2F2F2]"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#2A2F33] mr-2"></span>
+                  {dx}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
-    </Accordion>
+    </PanelShell>
   );
 };

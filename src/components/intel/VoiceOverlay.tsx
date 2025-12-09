@@ -7,7 +7,7 @@ export const VoiceOverlay: React.FC = () => {
     return (
       <button
         onClick={toggleVoice}
-        className="fixed bottom-6 right-6 w-12 h-12 bg-white border border-slate-200 text-slate-400 rounded-full shadow-lg flex items-center justify-center hover:text-blue-600 hover:border-blue-200 transition-all z-50"
+        className="fixed bottom-6 right-6 w-12 h-12 bg-[#1A1D21] border border-[#2A2F33] text-[#9BA3AF] rounded-full shadow-lg flex items-center justify-center hover:text-[#2D9CDB] hover:border-[#2D9CDB] transition-all z-50"
         title="Activate Voice Command"
       >
         <svg
@@ -30,17 +30,17 @@ export const VoiceOverlay: React.FC = () => {
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 animate-in slide-in-from-bottom-5 fade-in">
-      <div className="bg-slate-900 text-white px-4 py-2 rounded-lg shadow-xl text-sm font-medium flex items-center gap-2">
+      <div className="bg-[#0D0F12] border border-[#2A2F33] text-[#F2F2F2] px-4 py-2 rounded-lg shadow-xl text-sm font-medium flex items-center gap-2">
         <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#EB5757] opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-[#EB5757]"></span>
         </span>
         Listening...
       </div>
       <button
-        title="button"
+        title="toggle"
         onClick={toggleVoice}
-        className="w-12 h-12 bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-blue-700 transition-colors"
+        className="w-12 h-12 bg-[#2D9CDB] text-white rounded-full shadow-lg flex items-center justify-center hover:bg-[#2D9CDB]/80 transition-colors"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

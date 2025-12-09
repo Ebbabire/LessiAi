@@ -6,9 +6,9 @@ export const CaseProvider = ({ children }: { children: ReactNode }) => {
   const [expandedPanels, setExpandedPanels] = useState<Record<string, boolean>>(
     {
       patient: true,
-      reasoning: true,
-      treatment: true,
-      diagnostics: true,
+      reasoning: false,
+      treatment: false,
+      diagnostics: false,
       ops: false,
     }
   );

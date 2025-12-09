@@ -1,5 +1,3 @@
-import { ChevronDown } from "lucide-react";
-
 interface PanelShellProps {
   title: string;
   icon?: React.ReactNode;
@@ -11,7 +9,7 @@ interface PanelShellProps {
   onToggle?: () => void;
 }
 
-export const PanelShell: React.FC<PanelShellProps> = ({
+export const PanelShell = ({
   title,
   icon,
   action,
@@ -20,15 +18,15 @@ export const PanelShell: React.FC<PanelShellProps> = ({
   variant = "default",
   isExpanded = true,
   onToggle,
-}) => {
+}: PanelShellProps) => {
   return (
     <div
       className={`
-        bg-white border rounded-xl shadow-sm mb-4 overflow-hidden transition-all duration-200
+        bg-[#1A1D21] border rounded-lg shadow-sm mb-4 overflow-hidden transition-all duration-200
         ${
           variant === "highlight"
-            ? "border-blue-200 ring-1 ring-blue-50"
-            : "border-slate-200"
+            ? "border-[#F2C94C]/30 ring-1 ring-[#F2C94C]/10"
+            : "border-[#2A2F33]"
         }
         ${className}
     `}
@@ -39,17 +37,17 @@ export const PanelShell: React.FC<PanelShellProps> = ({
           px-4 py-3 border-b flex items-center justify-between
           ${
             variant === "highlight"
-              ? "bg-blue-50/30 border-blue-100"
-              : "bg-white border-slate-100"
+              ? "bg-[#F2C94C]/5 border-[#F2C94C]/20"
+              : "bg-[#1A1D21] border-[#2A2F33]"
           }
-          ${onToggle ? "cursor-pointer hover:bg-slate-50" : ""}
+          ${onToggle ? "cursor-pointer hover:bg-[#2A2F33]" : ""}
       `}
       >
         <div className="flex items-center gap-2.5">
           {icon && (
             <span
               className={
-                variant === "highlight" ? "text-blue-600" : "text-slate-400"
+                variant === "highlight" ? "text-[#F2C94C]" : "text-[#9BA3AF]"
               }
             >
               {icon}
@@ -57,7 +55,7 @@ export const PanelShell: React.FC<PanelShellProps> = ({
           )}
           <h3
             className={`font-semibold text-sm ${
-              variant === "highlight" ? "text-blue-900" : "text-slate-800"
+              variant === "highlight" ? "text-[#F2C94C]" : "text-[#F2F2F2]"
             }`}
           >
             {title}
@@ -68,11 +66,23 @@ export const PanelShell: React.FC<PanelShellProps> = ({
           {action && <div onClick={(e) => e.stopPropagation()}>{action}</div>}
           {onToggle && (
             <div
-              className={`text-slate-400 transition-transform duration-200 ${
+              className={`text-[#9BA3AF] transition-transform duration-200 ${
                 isExpanded ? "rotate-180" : ""
               }`}
             >
-              <ChevronDown className="w-4 h-4" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="m6 9 6 6 6-6" />
+              </svg>
             </div>
           )}
         </div>
