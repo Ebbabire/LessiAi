@@ -15,8 +15,8 @@ const CaseItem = ({ patientCase, onSelectCase, isSelected }: CaseItemProps) => {
       onClick={() => onSelectCase(patientCase.id)}
       className={`group relative flex items-center p-4 cursor-pointer transition-colors duration-150 ease-in-out border-l-4 ${
         isSelected
-          ? "bg-[#1A1D21]/80 border-[#F2C94C]"
-          : "bg-transparent border-transparent hover:bg-[#1A1D21] hover:border-[#2A2F33]"
+          ? "bg-[#252a31] border-[#F2C94C]"
+          : "bg-transparent border-transparent hover:bg-[#2A2F33] hover:border-[#615e35]"
       }`}
       role="button"
       tabIndex={0}
@@ -72,7 +72,7 @@ const CaseItem = ({ patientCase, onSelectCase, isSelected }: CaseItemProps) => {
           className={`pl-2 transition-colors ${
             isSelected
               ? "text-[#F2C94C]"
-              : "text-[#2A2F33] group-hover:text-[#9BA3AF]"
+              : "text-[#43505a] group-hover:text-[#9BA3AF]"
           }`}
         >
           <ChevronRight size={16} />
