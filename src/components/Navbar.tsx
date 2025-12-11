@@ -4,10 +4,10 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="h-7 w-7 bg-[#F2C94C] rounded-lg flex items-center justify-center shadow-sm">
-            <span className="text-[#0D0F12] font-bold text-sm">V</span>
+            <span className="text-[#0D0F12] font-bold text-sm">L</span>
           </div>
           <span className="font-bold text-[#F2F2F2] text-lg tracking-tight">
-            VetFlow
+            Lassi Ai
           </span>
         </div>
       </div>
