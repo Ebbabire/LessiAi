@@ -90,3 +90,58 @@ export interface ClinicalAIResponse {
   redFlags: string[];
   nextSteps: ClinicalNextStep[];
 }
+
+// ==========================================
+// 3. Diagnostics Response (Output Logic)
+// ==========================================
+
+export interface DiagnosticTest {
+  testName: string;
+  priority: 'high' | 'medium' | 'low';
+  reasoning: string;
+  recommendedByAI: boolean;
+}
+
+export interface DiagnosticsResponse {
+  diagnostics: DiagnosticTest[];
+}
+
+// ==========================================
+// 4. Treatment Response (Output Logic)
+// ==========================================
+
+export interface TreatmentDose {
+  mgPerKg: number | string;
+  route: string;
+  frequency: string;
+  durationDays: number | string;
+}
+
+export interface TreatmentCalculation {
+  patientWeightKg: number;
+  perDoseMg: number | string;
+  tabletStrengthMg?: number;
+  perDoseTablets?: number | string;
+  totalTablets?: number;
+  notes?: string;
+}
+
+export interface TreatmentSource {
+  guideline: string;
+  protocolName: string;
+  url?: string;
+}
+
+export interface TreatmentItem {
+  drugName: string;
+  displayText: string;
+  rationale: string;
+  dose: TreatmentDose;
+  calculation?: TreatmentCalculation;
+  source: TreatmentSource;
+  warnings?: string[];
+}
+
+export interface TreatmentResponse {
+  treatments: TreatmentItem[];
+}

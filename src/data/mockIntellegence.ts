@@ -1,4 +1,4 @@
-import type { CaseBundleV1, ClinicalAIResponse } from "@/type/intelligence";
+import type { CaseBundleV1, ClinicalAIResponse, DiagnosticsResponse, TreatmentResponse } from "@/type/intelligence";
 
 export const mockBundles: Record<string, CaseBundleV1> = {
   case_123: {
@@ -194,3 +194,97 @@ export const mockAIResponses: Record<string, ClinicalAIResponse> = {
     ],
   },
 };
+
+
+export const DiagnosticsAIResponses: Record<string, DiagnosticsResponse> = {
+
+  case_123: {
+    diagnostics: [
+      {
+        "testName": "Urinalysis",
+        "priority": "high",
+        "reasoning": "Essential for evaluating lower urinary tract disease and confirming presence of inflammation or crystals.",
+        "recommendedByAI": true
+      },
+      {
+        "testName": "Urine Culture & Sensitivity",
+        "priority": "high",
+        "reasoning": "Confirms bacterial infection and guides antimicrobial selection.",
+        "recommendedByAI": true
+      },
+      {
+        "testName": "Abdominal Ultrasound",
+        "priority": "medium",
+        "reasoning": "Helps evaluate bladder structure, stones, masses, or thickening suggestive of chronic disease.",
+        "recommendedByAI": false
+      },
+      {
+        "testName": "Bloodwork (CBC/Chemistry)",
+        "priority": "low",
+        "reasoning": "Useful if systemic illness or concurrent renal disease is suspected.",
+        "recommendedByAI": false
+      }
+    ]
+  }
+}
+
+
+export const TreatmentAIResponse: Record<string, TreatmentResponse> = {
+  case_123: {
+
+    treatments: [
+      {
+        "drugName": "Amoxicillin-Clavulanate",
+        "displayText": "12.5 mg/kg PO q12h for 10 days",
+        "rationale": "Culture-guided therapy with ISCAID-concordant dosing for E. coli cystitis.",
+        "dose": {
+          "mgPerKg": 12.5,
+          "route": "PO",
+          "frequency": "q12h",
+          "durationDays": 10
+        },
+        "calculation": {
+          "patientWeightKg": 4.5,
+          "perDoseMg": 56.25,
+          "tabletStrengthMg": 62.5,
+          "perDoseTablets": 1,
+          "totalTablets": 20,
+          "notes": "Rounded to nearest practical tablet size for accurate home dosing."
+        },
+        "source": {
+          "guideline": "ISCAID UTI Guidelines (2019)",
+          "protocolName": "Woodhaven UTI Standard",
+          "url": "https://www.iscaid.org/guidelines"
+        },
+        "warnings": [
+          "Avoid in patients with history of severe beta-lactam allergy.",
+          "Monitor renal function in older cats."
+        ]
+      },
+      {
+        "drugName": "Gabapentin",
+        "displayText": "5–10 mg/kg PO q8–12h as needed",
+        "rationale": "Provides analgesia for lower urinary tract discomfort.",
+        "dose": {
+          "mgPerKg": "5–10",
+          "route": "PO",
+          "frequency": "q8–12h",
+          "durationDays": "As needed"
+        },
+        "calculation": {
+          "patientWeightKg": 4.5,
+          "perDoseMg": "22.5–45 mg",
+          "notes": "Use liquid formulation for small patients to improve dosing accuracy."
+        },
+        "source": {
+          "guideline": "International Feline Pain Council Recommendations",
+          "protocolName": "Clinic Pain Management Protocol"
+        },
+        "warnings": [
+          "May cause mild sedation.",
+          "Use lower end of dose range in geriatric patients."
+        ]
+      }
+    ]
+  }
+}

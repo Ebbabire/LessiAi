@@ -4,12 +4,12 @@ import { useCaseContext } from "@/hooks/useCaseContext";
 
 // Components
 import { ReasoningPanel } from "./ReasoningPanel/ReasoningPanel";
-import { TreatmentPanel } from "./TreatmentPanel/TreatmentPanel";
+import { TreatmentPanel } from "./TreatmentPanel_v0/TreatmentPanel";
 import { OpsIntelPanel } from "./OpsIntelPanel/OpsIntelPanel";
-import { DiagnosticsPanel } from "./DiagnosticsPanel/DiagnosticsPanel";
+import { DiagnosticsPanel } from "./DiagnosticsPanel_v0/DiagnosticsPanel";
 
 // Mock Data Source (In real app, this would be a React Query hook)
-import { mockAIResponses, mockBundles } from "@/data/mockIntellegence";
+import { DiagnosticsAIResponses, mockAIResponses, mockBundles, TreatmentAIResponse } from "@/data/mockIntellegence";
 import { CaseIntelPanel } from "./CaseIntelPanel/CaseInetlPanel";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 
@@ -30,6 +30,14 @@ export const CaseDetail = ({ caseData, onBack }: CaseDetailProps) => {
   const bundle = useMemo(() => mockBundles[caseData.id] || null, [caseData.id]);
   const aiResponse = useMemo(
     () => mockAIResponses[caseData.id] || null,
+    [caseData.id]
+  );
+  const diagnosticsResponse = useMemo(
+    () => DiagnosticsAIResponses[caseData.id] || null,
+    [caseData.id]
+  );
+  const TreatmentResponse = useMemo(
+    () => TreatmentAIResponse[caseData.id] || null,
     [caseData.id]
   );
 
@@ -79,8 +87,10 @@ export const CaseDetail = ({ caseData, onBack }: CaseDetailProps) => {
           <>
             <CaseIntelPanel bundle={bundle} />
             <ReasoningPanel aiResponse={aiResponse} />
-            <TreatmentPanel aiResponse={aiResponse} />
-            <DiagnosticsPanel bundle={bundle} />
+            {/* <DiagnosticsPanel bundle={bundle} /> */}
+            <DiagnosticsPanel data={diagnosticsResponse} />
+            {/* <TreatmentPanel aiResponse={aiResponse} /> */}
+            <TreatmentPanel data={TreatmentResponse} />
             <OpsIntelPanel />
           </>
         ) : (
