@@ -86,7 +86,7 @@ export interface ClinicalNextStep {
 
 export interface ClinicalAIResponse {
   summary: string;
-  differentials: string[]; // Simple strings for v0
+  differentials: string[];
   redFlags: string[];
   nextSteps: ClinicalNextStep[];
 }
