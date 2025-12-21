@@ -30,6 +30,32 @@ export const CaseIntelPanel = ({ bundle, isLoading }: CaseIntelPanelProps) => {
     .filter(Boolean)
     .join(" • ");
 
+  const statusConfig: Record<
+    string,
+    { label: string; bg: string; text: string; border: string }
+  > = {
+    New: {
+      label: "Active Evaluation - In Progress",
+      bg: "bg-blue-500/10",
+      text: "text-blue-400",
+      border: "border-blue-500/30",
+    },
+    "In Progress": {
+      label: "Awaiting Diagnostics / Results",
+      bg: "bg-amber-500/10",
+      text: "text-amber-400",
+      border: "border-amber-500/30",
+    },
+    Completed: {
+      label: "Case Resolved / Archive",
+      bg: "bg-emerald-500/10",
+      text: "text-emerald-400",
+      border: "border-emerald-500/30",
+    },
+  };
+
+  const status = statusConfig[caseInfo.status || "New"] || statusConfig["New"];
+
   return (
     <PanelShell
       title="Chief Complaint"
@@ -38,6 +64,13 @@ export const CaseIntelPanel = ({ bundle, isLoading }: CaseIntelPanelProps) => {
       onToggle={() => togglePanel("patient")}
       icon={<Heart className="h-5 w-5" />}
     >
+      {/* Case Status Banner */}
+      <div
+        className={`w-full mb-4 px-3 py-2 border rounded font-bold text-xs uppercase tracking-wider text-center ${status.bg} ${status.text} ${status.border}`}
+      >
+        {status.label}
+      </div>
+
       <div className="flex justify-between items-start mb-4">
         <div>
           <h2 className="text-xl font-bold text-[#F2F2F2]">{patient.name}</h2>

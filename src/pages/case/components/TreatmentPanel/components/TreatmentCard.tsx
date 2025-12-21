@@ -61,6 +61,11 @@ export const TreatmentCard = memo(
                 <span className="text-[#9BA3AF]">ROUTE:</span>{" "}
                 {treatment.dose.route}
               </div>
+              <div className="flex items-center gap-1.5 px-2 py-1 bg-[#1A1D21] border border-[#2A2F33] rounded text-[10px] font-mono text-[#F2F2F2]">
+                <span className="text-[#9BA3AF]">DURATION:</span>{" "}
+                {treatment.dose.durationDays}{" "}
+                {typeof treatment.dose.durationDays === "number" ? "days" : ""}
+              </div>
             </div>
           )}
         </div>

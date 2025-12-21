@@ -6,6 +6,7 @@ export interface CaseBundleV1 {
     id: string;
     description: string | null;
     clinicalHistory: string | null;
+    status?: string; // Added to track explicit case state
   };
   patient: {
     name: string;
@@ -64,16 +65,4 @@ export interface ClinicalAIResponse {
   redFlags: string[];
   diagnostics: DiagnosticItem[]; // Dedicated array
   treatments: TreatmentItem[]; // Dedicated array
-}
-
-// 5. Component Props
-
-export interface ReasoningPanelProps {
-  aiResponse: ClinicalAIResponse | null;
-  isLoading?: boolean;
-}
-
-export interface TreatmentPanelProps {
-  aiResponse: ClinicalAIResponse | null;
-  isLoading?: boolean;
 }

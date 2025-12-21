@@ -8,6 +8,7 @@ export const mockBundles: Record<string, CaseBundleV1> = {
         "Indoor cat with 3-day history of pollakiuria, stranguria, and occasional hematuria.",
       clinicalHistory:
         "Previously healthy, no prior urinary issues reported. Exam findings: Mild discomfort on bladder palpation; otherwise unremarkable.",
+      status: "New",
     },
     patient: {
       name: "Mittens",
@@ -30,6 +31,7 @@ export const mockBundles: Record<string, CaseBundleV1> = {
         "Patient presented with acute vomiting and lethargy. Owner reports 4 episodes in 24h.",
       clinicalHistory:
         "Vomiting started 24h ago. Bilious. No known dietary indiscretion. UTD on vaccines.",
+      status: "In Progress",
     },
     patient: {
       name: "Bella",
@@ -48,6 +50,7 @@ export const mockBundles: Record<string, CaseBundleV1> = {
       id: "C-2023-002",
       description: "Annual wellness exam and vaccinations.",
       clinicalHistory: "Doing well at home. No significant history.",
+      status: "Completed",
     },
     patient: {
       name: "Luna",

@@ -29,10 +29,7 @@ export const DiagnosticItem = memo(({ test }: DiagnosticItemProps) => {
               {test.testName}
             </span>
             {test.recommendedByAI && (
-              <span className="flex h-2 w-2 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F2C94C] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#F2C94C]"></span>
-              </span>
+              <StatusBadge label="AI Suggested" variant="warning" />
             )}
           </div>
           <p className="text-sm text-[#9BA3AF] leading-snug">

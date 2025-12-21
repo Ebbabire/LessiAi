@@ -34,15 +34,22 @@ export const ReasoningPanel = ({ reasoningResponse }: ReasoningPanelProps) => {
       {hasRecommendations ? (
         <div className="space-y-4">
           {/* Primary Diagnosis */}
-          <div>
-            <span className="text-xs font-bold text-[#27AE60] uppercase tracking-wider block mb-1">
-              Primary Consideration
-            </span>
-            <div className="text-lg font-bold text-[#F2F2F2] flex items-center gap-2">
-              {primaryDx}
-              <span className="inline-flex h-2 w-2 rounded-full bg-[#27AE60] animate-pulse"></span>
+          <div className="relative pl-4 border-l-2 border-[#2D9CDB]/40">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#2D9CDB] text-white text-[10px] font-bold">
+                1
+              </span>
+              <span className="text-[10px] font-bold text-[#2D9CDB] uppercase tracking-widest">
+                Leading Hypothesis
+              </span>
             </div>
-            <p className="text-sm text-[#9BA3AF] mt-1">
+            <p className="text-[10px] text-[#9BA3AF] mb-2 font-medium">
+              Prioritized by likelihood — Not confirmed.
+            </p>
+            <h2 className="text-xl font-bold text-[#F2F2F2] leading-tight">
+              {primaryDx}
+            </h2>
+            <p className="text-sm text-[#9BA3AF] mt-2 leading-relaxed italic">
               {reasoningResponse.summary}
             </p>
           </div>
