@@ -27,10 +27,9 @@ export const mockBundles: Record<string, CaseBundleV1> = {
   "C-2023-001": {
     case: {
       id: "C-2023-001",
-      description:
-        "Patient presented with acute vomiting and lethargy. Owner reports 4 episodes in 24h.",
+      description: "Acute vomiting × 24 hours",
       clinicalHistory:
-        "Vomiting started 24h ago. Bilious. No known dietary indiscretion. UTD on vaccines.",
+        "Case state: Active Evaluation → Watching → Resolved if improvement with supportive care. Escalation thresholds: Persistent vomiting >48h, radiographic obstruction, worsening pain, electrolyte abnormalities.",
       status: "In Progress",
     },
     patient: {
@@ -42,8 +41,8 @@ export const mockBundles: Record<string, CaseBundleV1> = {
       weightKg: 28.5,
     },
     clinic: { name: "Main Street Vet" },
-    flags: ["vomiting", "lethargy", "dehydration_risk"],
-    imaging: [{ id: "US-001" }],
+    flags: ["vomiting", "dehydration_risk"],
+    imaging: [],
   },
   "C-2023-002": {
     case: {
@@ -167,25 +166,38 @@ export const mockAIResponses: Record<string, ClinicalAIResponse> = {
   },
   "C-2023-001": {
     summary:
-      "High suspicion of acute gastroenteritis. Dehydration is a primary concern.",
+      "Acute vomiting presentation consistent with gastritis/dietary indiscretion or pancreatitis. Initial diagnostics to guide management with supportive care approach.",
     differentials: [
-      "Acute Gastroenteritis",
-      "Dietary Indiscretion",
+      "Acute gastritis / dietary indiscretion",
       "Pancreatitis",
-      "Foreign Body",
+      "Partial obstruction",
     ],
-    redFlags: ["Dehydration", "Potential Foreign Body"],
+    redFlags: [
+      "Persistent vomiting >48h",
+      "Radiographic obstruction",
+      "Worsening pain",
+      "Electrolyte abnormalities",
+    ],
     diagnostics: [
       {
-        testName: "Abdominal Ultrasound",
+        testName: "Abdominal radiographs",
         priority: "high",
-        reasoning: "Rule out foreign body obstruction given acute vomiting.",
+        reasoning:
+          "Initial imaging to evaluate for obstruction, foreign body, or gas patterns suggestive of pancreatitis.",
         recommendedByAI: true,
       },
       {
-        testName: "CBC/Chem/Lytes",
+        testName: "CBC/Chem",
+        priority: "high",
+        reasoning:
+          "Assess hydration status, electrolyte balance, and screen for pancreatitis or systemic illness.",
+        recommendedByAI: true,
+      },
+      {
+        testName: "Ultrasound",
         priority: "medium",
-        reasoning: "Assess hydration status and electrolyte imbalance.",
+        reasoning:
+          "Conditional only if rads inconclusive or signs persist after initial diagnostics.",
         recommendedByAI: false,
       },
     ],

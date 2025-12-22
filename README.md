@@ -1,4 +1,4 @@
-# LassiAI - Clinical Case Management
+# Lassi - Clinical Case Management
 
 A professional veterinary clinical case management interface built with React and Tailwind CSS. This project demonstrates a clean, master-detail architecture for managing patient intake, clinical history, and AI-driven recommendations.
 

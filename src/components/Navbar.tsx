@@ -7,7 +7,7 @@ const Navbar = () => {
             <span className="text-[#0D0F12] font-bold text-sm">L</span>
           </div>
           <span className="font-bold text-[#F2F2F2] text-lg tracking-tight">
-            Lassi Ai
+            Lassi
           </span>
         </div>
       </div>

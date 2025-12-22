@@ -17,7 +17,7 @@ export const mockCases: Case[] = [
     name: "Bella",
     age: "4 years",
     owner: "Sarah Jenkins",
-    complaint: "Acute vomiting and lethargy for 24 hours, refusal to eat.",
+    complaint: "Acute vomiting × 24 hours",
     status: "In Progress",
     createdAt: "2023-10-24",
   },
