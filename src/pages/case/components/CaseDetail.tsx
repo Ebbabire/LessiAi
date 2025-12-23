@@ -87,7 +87,7 @@ export const CaseDetail = ({ caseData }: CaseDetailProps) => {
       <div className="flex-1 overflow-y-auto p-3 md:p-6 space-y-3 md:space-y-4 scrollbar-thin scrollbar-thumb-[#2A2F33] scrollbar-track-transparent">
         {bundle ? (
           <>
-            <CaseIntelPanel bundle={bundle} />
+            <CaseIntelPanel bundle={bundle} nextSteps={aiResponse?.nextSteps} />
             <ReasoningPanel reasoningResponse={aiResponse} />
             <DiagnosticsPanel diagnosticsResponse={aiResponse?.diagnostics} />
             <TreatmentPanel treatmentResponse={aiResponse?.treatments} />

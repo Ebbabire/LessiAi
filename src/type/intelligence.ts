@@ -1,12 +1,12 @@
 // src/types/intelligence.ts
 
+import type { Case } from "./case";
+
 // 1. Case Bundle (Input Context)
 export interface CaseBundleV1 {
-  case: {
-    id: string;
+  case: Partial<Case> & {
     description: string | null;
     clinicalHistory: string | null;
-    status?: string; // Added to track explicit case state
   };
   patient: {
     name: string;
@@ -63,6 +63,10 @@ export interface ClinicalAIResponse {
   summary: string;
   differentials: string[];
   redFlags: string[];
+  nextSteps: {
+    action: string;
+    rationale: string;
+  }[];
   diagnostics: DiagnosticItem[]; // Dedicated array
   treatments: TreatmentItem[]; // Dedicated array
 }

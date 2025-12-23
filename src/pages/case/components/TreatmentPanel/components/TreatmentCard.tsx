@@ -11,12 +11,28 @@ export const TreatmentCard = memo(
   ({ treatment, onViewCalculation }: TreatmentItemProps) => {
     return (
       <div className="border border-[#2A2F33] rounded-lg bg-[#0D0F12] overflow-hidden group hover:border-[#F2C94C]/30 transition-colors">
+        {/* Warnings Strip */}
+        {treatment.warnings && treatment.warnings.length > 0 && (
+          <div className="bg-[#EB5757]/10 border-t border-[#EB5757]/20 px-4 py-2.5 flex items-start gap-2.5">
+            <AlertOctagon
+              size={14}
+              className="text-[#EB5757] mt-0.5 shrink-0"
+            />
+            <div className="text-[11px] text-[#EB5757] font-semibold leading-tight">
+              <span className="uppercase tracking-widest text-[9px] block mb-0.5">
+                Safety Check
+              </span>
+              {treatment.warnings.join(" • ")}
+            </div>
+          </div>
+        )}
+
         {/* Header: Drug Name + Protocol Source */}
         <div className="p-4">
           <div className="flex justify-between items-start mb-2">
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-2">
-                <h4 className="text-base font-bold text-[#F2F2F2]">
+                <h4 className="text-base font-bold text-[#2D9CDB]">
                   {treatment.drugName}
                 </h4>
               </div>
@@ -69,22 +85,6 @@ export const TreatmentCard = memo(
             </div>
           )}
         </div>
-
-        {/* Warnings Strip */}
-        {treatment.warnings && treatment.warnings.length > 0 && (
-          <div className="bg-[#EB5757]/10 border-t border-[#EB5757]/20 px-4 py-2.5 flex items-start gap-2.5">
-            <AlertOctagon
-              size={14}
-              className="text-[#EB5757] mt-0.5 shrink-0"
-            />
-            <div className="text-[11px] text-[#EB5757] font-semibold leading-tight">
-              <span className="uppercase tracking-widest text-[9px] block mb-0.5">
-                Safety Check
-              </span>
-              {treatment.warnings.join(" • ")}
-            </div>
-          </div>
-        )}
       </div>
     );
   }

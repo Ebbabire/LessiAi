@@ -76,6 +76,23 @@ export const mockAIResponses: Record<string, ClinicalAIResponse> = {
       "Neoplasia",
     ],
     redFlags: ["Risk of obstruction (low/female)", "Ascending infection risk"],
+    nextSteps: [
+      {
+        action: "Collect cystocentesis sample for urinalysis and culture",
+        rationale:
+          "Confirms bacterial infection and identifies organism for targeted antimicrobial therapy.",
+      },
+      {
+        action: "Start empiric amoxicillin-clavulanate 12.5 mg/kg PO q12h",
+        rationale:
+          "First-line antibiotic per ISCAID guidelines while awaiting culture results.",
+      },
+      {
+        action: "Increase water intake and consider wet food transition",
+        rationale:
+          "Environmental management reduces recurrence risk in cats with lower urinary tract disease.",
+      },
+    ],
     diagnostics: [
       {
         testName: "Urinalysis",
@@ -178,6 +195,30 @@ export const mockAIResponses: Record<string, ClinicalAIResponse> = {
       "Worsening pain",
       "Electrolyte abnormalities",
     ],
+    nextSteps: [
+      {
+        action:
+          "Administer Maropitant (Cerenia) 1 mg/kg SQ for antiemetic control",
+        rationale:
+          "First-line antiemetic to stop vomiting cycle and improve patient comfort.",
+      },
+      {
+        action: "Provide subcutaneous fluid bolus (500ml LRS) for rehydration",
+        rationale:
+          "Addresses dehydration from fluid losses; reassess hydration status in 4-6 hours.",
+      },
+      {
+        action:
+          "NPO for 12-24 hours, then introduce bland diet in small portions",
+        rationale:
+          "GI rest followed by gradual refeeding reduces recurrence risk.",
+      },
+      {
+        action: "Recheck if vomiting persists >48h or new symptoms develop",
+        rationale:
+          "Escalation pathway: consider abdominal ultrasound or hospitalization if no improvement.",
+      },
+    ],
     diagnostics: [
       {
         testName: "Abdominal radiographs",
@@ -217,5 +258,29 @@ export const mockAIResponses: Record<string, ClinicalAIResponse> = {
         warnings: ["Listen to lungs post-admin"],
       },
     ],
+  },
+  "C-2023-002": {
+    summary:
+      "Healthy 2-year-old feline presenting for routine annual wellness examination. No abnormalities detected on physical exam.",
+    differentials: [],
+    redFlags: [],
+    nextSteps: [],
+    diagnostics: [
+      {
+        testName: "Fecal examination",
+        priority: "low",
+        reasoning:
+          "Recommended annually to screen for intestinal parasites, even in indoor cats.",
+        recommendedByAI: false,
+      },
+      {
+        testName: "Baseline bloodwork (CBC/Chem)",
+        priority: "low",
+        reasoning:
+          "Optional for young healthy cats; establishes baseline values for future comparison.",
+        recommendedByAI: false,
+      },
+    ],
+    treatments: [],
   },
 };

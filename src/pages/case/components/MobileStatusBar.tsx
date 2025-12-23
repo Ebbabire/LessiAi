@@ -1,4 +1,3 @@
-import { StatusBadge } from "@/components/ui/StatusBadge";
 import type { Case } from "@/type/case";
 import type { ClinicalAIResponse } from "@/type/intelligence";
 import { AlertOctagon, CheckCircle2 } from "lucide-react";
@@ -36,13 +35,16 @@ export const MobileStatusBar = ({
         }
       `}</style>
       <div className="px-4 py-3 space-y-2">
-        {/* Case Status Row */}
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-bold text-[#9BA3AF] uppercase tracking-wider">
-            Status
-          </span>
-          <StatusBadge label={caseData.status} variant={caseData.status} />
-        </div>
+        {caseData.complaint && (
+          <div className="bg-[#0D0F12] px-3 py-2 rounded-lg border border-[#2A2F33] mb-4">
+            <span className="text-xs font-bold text-[#2D9CDB] uppercase tracking-wide block mb-1">
+              Current Clinical Intent
+            </span>
+            <p className="text-sm text-[#F2F2F2] leading-relaxed">
+              {caseData.complaint}
+            </p>
+          </div>
+        )}
 
         {/* Escalation Thresholds (Red Flags) */}
         {hasEscalation ? (
@@ -54,26 +56,21 @@ export const MobileStatusBar = ({
               </span>
             </div>
             <div className="flex flex-wrap gap-1.5">
-              {redFlags.slice(0, 3).map((flag, idx) => (
+              {redFlags.map((flag, idx) => (
                 <span
                   key={idx}
-                  className="text-[11px] text-[#EB5757] bg-[#EB5757]/10 px-2 py-1 rounded font-medium"
+                  className="text-xs text-[#EB5757] bg-[#EB5757]/10 px-2 py-1 rounded font-medium"
                 >
                   {flag}
                 </span>
               ))}
-              {redFlags.length > 3 && (
-                <span className="text-[11px] text-[#EB5757] bg-[#EB5757]/10 px-2 py-1 rounded font-medium">
-                  +{redFlags.length - 3} more
-                </span>
-              )}
             </div>
           </div>
         ) : (
           <div className="bg-[#27AE60]/10 border border-[#27AE60]/30 rounded-lg p-3">
             <div className="flex items-center gap-2">
               <CheckCircle2 size={14} className="text-[#27AE60]" />
-              <span className="text-[11px] font-medium text-[#27AE60]">
+              <span className="text-xs font-medium text-[#27AE60]">
                 No escalation flags — standard monitoring applies
               </span>
             </div>

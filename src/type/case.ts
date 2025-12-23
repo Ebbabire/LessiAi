@@ -1,4 +1,12 @@
-export type CaseStatus = "New" | "In Progress" | "Completed";
+export type CaseStatus =
+  | "default"
+  | "neutral"
+  | "outline"
+  | "warning"
+  | "danger"
+  | "New"
+  | "In Progress"
+  | "Completed";
 
 export interface Case {
   id: string;
