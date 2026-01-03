@@ -28,7 +28,7 @@ const Cases = () => {
 
   // Calculate status bar height for layout offset
   const hasEscalation = aiResponse?.redFlags && aiResponse.redFlags.length > 0;
-  const statusBarHeight = hasEscalation ? "pt-[120px]" : "pt-[52px]";
+  const statusBarHeight = hasEscalation ? "pt-[120px]" : "pt-[52px] ";
 
   return (
     <>

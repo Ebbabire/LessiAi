@@ -17,6 +17,7 @@ export interface Case {
   complaint: string;
   status: CaseStatus;
   createdAt: string;
+  surfaceReason?: string; // e.g., "Pending labs", "Awaiting imaging"
 }
 
 export type Theme = "dark" | "light" | "system";

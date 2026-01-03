@@ -59,15 +59,27 @@ const CaseItem = ({ patientCase, onSelectCase, isSelected }: CaseItemProps) => {
           <span className="text-[10px] text-[#9BA3AF]">
             {patientCase.createdAt}
           </span>
+          {patientCase.surfaceReason && (
+            <span className="text-xs text-slate-400">
+              {patientCase.surfaceReason}
+            </span>
+          )}
         </div>
       </div>
 
-      {/* Right Column: Status, Date, Action (Visible on medium screens and up) */}
-      <div className="hidden md:flex items-center gap-6 shrink-0 ml-4">
+      {/* Right Column: Status, Date, Surface Reason, Action (Visible on medium screens and up) */}
+      <div className="hidden md:flex items-center gap-4 shrink-0 ml-4">
         <StatusBadge label={patientCase.status} variant={patientCase.status} />
-        <span className="text-[11px] text-[#9BA3AF] w-20 text-right">
-          {patientCase.createdAt}
-        </span>
+        <div className="flex flex-col items-end gap-0.5">
+          <span className="text-[11px] text-[#9BA3AF]">
+            {patientCase.createdAt}
+          </span>
+          {patientCase.surfaceReason && (
+            <span className="text-xs text-slate-400">
+              {patientCase.surfaceReason}
+            </span>
+          )}
+        </div>
         <div
           className={`pl-2 transition-colors ${
             isSelected

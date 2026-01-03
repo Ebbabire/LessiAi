@@ -20,7 +20,7 @@ export const DiagnosticItem = memo(({ test }: DiagnosticItemProps) => {
         test.recommendedByAI
           ? "border-[#F2C94C]/40 bg-[#F2C94C]/5"
           : "border-[#2A2F33]"
-      } ${priorityHoverClass}`}
+      } ${priorityHoverClass} `}
     >
       <div className="flex justify-between items-start gap-4">
         <div className="flex-1">

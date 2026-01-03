@@ -1,8 +1,9 @@
+import { useState } from "react";
 import { PanelShell } from "@/components/ui/PanelShell";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { useCaseContext } from "@/hooks/useCaseContext";
 import type { CaseBundleV1 } from "@/type/intelligence";
-import { Heart, ArrowRight } from "lucide-react";
+import { Heart, ArrowRight, ChevronDown, ChevronRight, Stethoscope } from "lucide-react";
 
 export interface CaseIntelPanelProps {
   bundle: CaseBundleV1;
@@ -16,13 +17,14 @@ export const CaseIntelPanel = ({
   isLoading,
 }: CaseIntelPanelProps) => {
   const { expandedPanels, togglePanel } = useCaseContext();
+  const [implicationsOpen, setImplicationsOpen] = useState(false);
 
   if (isLoading || !bundle)
     return (
       <div className="h-24 bg-[#1A1D21] border border-[#2A2F33] rounded-xl animate-pulse" />
     );
 
-  const { patient, case: caseInfo, flags, imaging } = bundle;
+  const { patient, case: caseInfo, flags, imaging, specialistInput } = bundle;
 
   // Format patient demographics string
   const demographics = [
@@ -40,19 +42,19 @@ export const CaseIntelPanel = ({
     { label: string; bg: string; text: string; border: string }
   > = {
     New: {
-      label: "Active Evaluation - In Progress",
+      label: "Active Evaluation",
       bg: "bg-blue-500/10",
       text: "text-blue-400",
       border: "border-blue-500/30",
     },
     "In Progress": {
-      label: "Awaiting Diagnostics / Results",
+      label: "Awaiting Results",
       bg: "bg-amber-500/10",
       text: "text-amber-400",
       border: "border-amber-500/30",
     },
     Completed: {
-      label: "Case Resolved / Archive",
+      label: "Resolved",
       bg: "bg-emerald-500/10",
       text: "text-emerald-400",
       border: "border-emerald-500/30",
@@ -139,6 +141,72 @@ export const CaseIntelPanel = ({
           />
         )}
       </div>
+
+      {/* Clinical Implications & Monitoring - Collapsed Section */}
+      {specialistInput && (
+        <div className="mt-4 border border-[#2A2F33] rounded-lg overflow-hidden">
+          <button
+            onClick={() => setImplicationsOpen(!implicationsOpen)}
+            className="w-full flex items-center justify-between p-3 bg-[#0D0F12] hover:bg-[#1A1D21] transition-colors"
+          >
+            <div className="flex items-center gap-2">
+              <Stethoscope size={14} className="text-[#9BA3AF]" />
+              <span className="text-xs font-bold text-[#9BA3AF] uppercase tracking-wider">
+                Clinical Implications & Monitoring
+              </span>
+            </div>
+            {implicationsOpen ? (
+              <ChevronDown size={14} className="text-[#9BA3AF]" />
+            ) : (
+              <ChevronRight size={14} className="text-[#9BA3AF]" />
+            )}
+          </button>
+
+          {implicationsOpen && (
+            <div className="p-3 bg-[#0D0F12] border-t border-[#2A2F33] space-y-3">
+              {/* Implications */}
+              {specialistInput.implications.length > 0 && (
+                <div>
+                  <span className="text-[10px] font-bold text-[#2D9CDB] uppercase tracking-wide block mb-2">
+                    Implications
+                  </span>
+                  <ul className="space-y-1">
+                    {specialistInput.implications.map((item, idx) => (
+                      <li
+                        key={idx}
+                        className="text-sm text-[#F2F2F2] leading-snug flex items-start gap-2"
+                      >
+                        <span className="text-[#2D9CDB] mt-1">•</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Monitoring */}
+              {specialistInput.monitoring.length > 0 && (
+                <div>
+                  <span className="text-[10px] font-bold text-amber-400 uppercase tracking-wide block mb-2">
+                    Monitoring
+                  </span>
+                  <ul className="space-y-1">
+                    {specialistInput.monitoring.map((item, idx) => (
+                      <li
+                        key={idx}
+                        className="text-sm text-[#F2F2F2] leading-snug flex items-start gap-2"
+                      >
+                        <span className="text-amber-400 mt-1">•</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
     </PanelShell>
   );
 };

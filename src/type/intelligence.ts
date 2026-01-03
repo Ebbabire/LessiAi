@@ -2,6 +2,9 @@
 
 import type { Case } from "./case";
 
+// Progression Mode determines case handling priority
+export type ProgressionMode = "ADVANCE" | "PIVOT" | "MONITOR" | "ESCALATE";
+
 // 1. Case Bundle (Input Context)
 export interface CaseBundleV1 {
   case: Partial<Case> & {
@@ -21,6 +24,10 @@ export interface CaseBundleV1 {
   };
   flags: string[]; // e.g. ["lower_urinary_signs"]
   imaging?: { id: string }[]; // If length > 0, imaging is available
+  specialistInput?: {
+    implications: string[];
+    monitoring: string[];
+  };
 }
 
 // 2. Diagnostics Item
@@ -69,4 +76,5 @@ export interface ClinicalAIResponse {
   }[];
   diagnostics: DiagnosticItem[]; // Dedicated array
   treatments: TreatmentItem[]; // Dedicated array
+  progressionMode?: ProgressionMode; // ADVANCE | PIVOT | MONITOR | ESCALATE
 }
