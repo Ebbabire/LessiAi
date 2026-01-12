@@ -102,7 +102,14 @@ export interface TreatmentItem {
   operationalReference?: OperationalReference;
 }
 
-// 5. Main AI Response
+// 5. Readiness Status (Backend-determined validity gate)
+export interface ReadinessStatus {
+  isReady: boolean;
+  missingInputs: string[]; // e.g., ["Patient Weight", "Urine Culture"]
+  unlockCondition: string; // e.g., "Update patient record in VitalRads"
+}
+
+// 6. Main AI Response
 export interface ClinicalAIResponse {
   summary: string;
   differentials: string[];
@@ -114,4 +121,5 @@ export interface ClinicalAIResponse {
   diagnostics: DiagnosticItem[]; // Dedicated array
   treatments: TreatmentItem[]; // Dedicated array
   progressionMode?: ProgressionMode; // ADVANCE | PIVOT | MONITOR | ESCALATE
+  readiness?: ReadinessStatus; // Backend-determined readiness gate
 }

@@ -14,8 +14,7 @@ export const useMediaQuery = (query: string): boolean => {
     const mediaQuery = window.matchMedia(query);
     const handler = (event: MediaQueryListEvent) => setMatches(event.matches);
 
-    // Set initial value
-    setMatches(mediaQuery.matches);
+    setMatches(mediaQuery.matches); // eslint-disable-next-line react-hooks/exhaustive-deps
 
     // Listen for changes
     mediaQuery.addEventListener("change", handler);
@@ -25,9 +24,6 @@ export const useMediaQuery = (query: string): boolean => {
   return matches;
 };
 
-/**
- * Convenience hook for mobile detection (< 768px / md breakpoint)
- */
 export const useIsMobile = (): boolean => {
   return !useMediaQuery("(min-width: 768px)");
 };

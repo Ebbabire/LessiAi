@@ -1,5 +1,6 @@
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import type { Case } from "@/type/case";
+import type { ReadinessStatus } from "@/type/intelligence";
 import { useCaseContext } from "@/hooks/useCaseContext";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 
@@ -8,12 +9,25 @@ import { ReasoningPanel } from "./ReasoningPanel/ReasoningPanel";
 import { TreatmentPanel } from "./TreatmentPanel/TreatmentPanel";
 import { OpsIntelPanel } from "./OpsIntelPanel/OpsIntelPanel";
 import { DiagnosticsPanel } from "./DiagnosticsPanel/DiagnosticsPanel";
-
-// Mock Data Source (In real app, this would be a React Query hook)
 import { CaseIntelPanel } from "./CaseIntelPanel/CaseInetlPanel";
 import { StatusBadge } from "@/components/ui/StatusBadge";
+import { ReadinessBlock } from "@/components/ui/ReadinessBlock";
+
+// Mock Data Source (this will be changed to a React Query hook)
 import { mockAIResponses, mockBundles } from "@/data/mockIntellegence";
 import { logEvent } from "@/lib/telemetry";
+
+// Dev Mode: Mock readiness for testing locked state
+const MOCK_LOCKED_READINESS: ReadinessStatus = {
+  isReady: false,
+  missingInputs: [
+    "Patient Weight",
+    "Urine Culture Results",
+    "Clinical History",
+  ],
+  unlockCondition:
+    "Update patient record with weight and attach pending lab results in VitalRads.",
+};
 
 interface CaseDetailProps {
   caseData: Case;
@@ -22,6 +36,9 @@ interface CaseDetailProps {
 export const CaseDetail = ({ caseData }: CaseDetailProps) => {
   const { setActiveCaseId, setExpandedPanels } = useCaseContext();
   const isMobile = useIsMobile();
+
+  // Dev Mode Simulator: Toggle to test locked state locally
+  const [simulateLock, setSimulateLock] = useState(false);
 
   // Telemetry: Log Case Opened
   useEffect(() => {
@@ -42,10 +59,27 @@ export const CaseDetail = ({ caseData }: CaseDetailProps) => {
     [caseData.id]
   );
 
+  // Determine lock state: Backend authority via aiResponse.readiness
+  // Dev Mode: simulateLock overrides for QA testing
+  const isLocked = useMemo(() => {
+    if (simulateLock) return true;
+    return aiResponse?.readiness?.isReady === false;
+  }, [aiResponse?.readiness?.isReady, simulateLock]);
+
+  // Get readiness data for display
+  const readinessData = useMemo((): ReadinessStatus | null => {
+    if (simulateLock) return MOCK_LOCKED_READINESS;
+    if (aiResponse?.readiness && !aiResponse.readiness.isReady) {
+      return aiResponse.readiness;
+    }
+    return null;
+  }, [aiResponse?.readiness, simulateLock]);
+
   // Auto-Surface Logic: Automatically open relevant panels based on data presence
   // On mobile: collapse more aggressively to reduce scrolling
+  // Only run when NOT locked
   useEffect(() => {
-    if (aiResponse) {
+    if (aiResponse && !isLocked) {
       const hasTreatment =
         aiResponse.treatments && aiResponse.treatments.length > 0;
       const hasDiagnostics =
@@ -62,7 +96,7 @@ export const CaseDetail = ({ caseData }: CaseDetailProps) => {
         diagnostics: isMobile ? false : hasDiagnostics,
       }));
     }
-  }, [aiResponse, setExpandedPanels, isMobile]);
+  }, [aiResponse, setExpandedPanels, isMobile, isLocked]);
 
   return (
     <div className="h-[400px] lg:h-full scrollbar-thin scrollbar-thumb-[#2A2F33] scrollbar-track-transparent bg-[#0D0F12] border border-[#2A2F33] rounded-lg shadow-sm flex flex-col overflow-y-auto animate-in fade-in duration-300 relative">
@@ -87,14 +121,27 @@ export const CaseDetail = ({ caseData }: CaseDetailProps) => {
       <div className="flex-1 overflow-y-auto p-3 md:p-6 space-y-3 md:space-y-4 scrollbar-thin scrollbar-thumb-[#2A2F33] scrollbar-track-transparent">
         {bundle ? (
           <>
+            {/* CaseIntelPanel (Summary) - Always visible regardless of lock state */}
             <CaseIntelPanel bundle={bundle} nextSteps={aiResponse?.nextSteps} />
-            <ReasoningPanel reasoningResponse={aiResponse} />
-            <DiagnosticsPanel diagnosticsResponse={aiResponse?.diagnostics} />
-            <TreatmentPanel
-              treatmentResponse={aiResponse?.treatments}
-              progressionMode={aiResponse?.progressionMode}
-            />
-            <OpsIntelPanel />
+
+            {/* Intelligence Panels - Gated by readiness */}
+            {isLocked && readinessData ? (
+              // LOCKED: Show ReadinessBlock explaining why panels are silent
+              <ReadinessBlock readiness={readinessData} />
+            ) : (
+              // UNLOCKED: Show Intelligence Panels normally
+              <>
+                <ReasoningPanel reasoningResponse={aiResponse} />
+                <DiagnosticsPanel
+                  diagnosticsResponse={aiResponse?.diagnostics}
+                />
+                <TreatmentPanel
+                  treatmentResponse={aiResponse?.treatments}
+                  progressionMode={aiResponse?.progressionMode}
+                />
+                <OpsIntelPanel />
+              </>
+            )}
           </>
         ) : (
           <div className="flex flex-col items-center justify-center py-12 text-center">
@@ -126,6 +173,20 @@ export const CaseDetail = ({ caseData }: CaseDetailProps) => {
           </div>
         )}
       </div>
+
+      {/* Dev Mode Simulator Button - Only visible in development */}
+      {import.meta.env.DEV && (
+        <button
+          onClick={() => setSimulateLock((prev) => !prev)}
+          className={`fixed bottom-4 right-4 z-50 px-3 py-2 rounded-lg text-xs font-bold uppercase tracking-wider shadow-lg transition-all ${
+            simulateLock
+              ? "bg-amber-500 text-black hover:bg-amber-400"
+              : "bg-[#2A2F33] text-[#9BA3AF] hover:bg-[#3A3F43] border border-[#3A3F43]"
+          }`}
+        >
+          {simulateLock ? "🔒 Locked (Dev)" : "🔓 Toggle Lock"}
+        </button>
+      )}
     </div>
   );
 };

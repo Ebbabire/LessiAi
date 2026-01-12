@@ -30,7 +30,7 @@ export const TreatmentCard = memo(
             </h4>
             {treatment.calculation && (
               <button
-                className="text-[#9BA3AF] hover:text-[#2D9CDB] transition-colors cursor-pointer px-2 py-1 rounded bg-[#2A2F33]/50 hover:bg-[#2A2F33] flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider"
+                className="text-[#9BA3AF] hover:text-[#2D9CDB] transitioncolors cursor-pointer px-2 py-1 rounded bg-[#2A2F33]/50 hover:bg-[#2A2F33] flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider"
                 onClick={() => onViewCalculation(treatment)}
               >
                 <ShieldCheck size={12} />
