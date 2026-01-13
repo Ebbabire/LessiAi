@@ -5,6 +5,7 @@ import { useCaseContext } from "@/hooks/useCaseContext";
 import type {
   TreatmentItem as TreatmentResponse,
   ProgressionMode,
+  TrustMetadata,
 } from "../../../../type/intelligence";
 import { TreatmentCard } from "./components/TreatmentCard";
 import { CalculationDialog } from "./components/CalculationDialog";
@@ -16,11 +17,13 @@ import { SuccessCard } from "@/components/ui/SuccessCard";
 interface TreatmentPanelProps {
   treatmentResponse: TreatmentResponse[] | null;
   progressionMode?: ProgressionMode;
+  trustData?: TrustMetadata;
 }
 
 export const TreatmentPanel = ({
   treatmentResponse,
   progressionMode,
+  trustData,
 }: TreatmentPanelProps) => {
   const [selectedTreatment, setSelectedTreatment] =
     useState<TreatmentResponse | null>(null);
@@ -52,6 +55,7 @@ export const TreatmentPanel = ({
         onToggle={() => togglePanel("treatment")}
         telemetryLabel="treatments_panel_viewed"
         caseId={activeCaseId}
+        trustData={trustData}
       >
         <div className="flex flex-col gap-3">
           {hasRecommendations ? (

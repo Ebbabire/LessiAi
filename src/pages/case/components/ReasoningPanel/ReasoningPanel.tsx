@@ -67,6 +67,7 @@ export const ReasoningPanel = ({ reasoningResponse }: ReasoningPanelProps) => {
       icon={<BookOpen size={18} />}
       telemetryLabel="reasoning_panel_viewed"
       caseId={activeCaseId}
+      trustData={reasoningResponse?.meta}
     >
       {/* Progression Mode Header */}
       <div

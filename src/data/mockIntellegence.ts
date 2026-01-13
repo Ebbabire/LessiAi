@@ -70,6 +70,14 @@ export const mockAIResponses: Record<string, ClinicalAIResponse> = {
     progressionMode: "ADVANCE",
     summary:
       "Clinical presentation and urinalysis consistent with bacterial cystitis.",
+    meta: {
+      finding_confidence: "suggestive",
+      evidence_strength: "moderate",
+      source_class: "Clinical Guidelines",
+      reasoning_type: "Deductive",
+      explanation: "Based on clinical signs and ISCAID guidelines for feline lower urinary tract disease.",
+      uncertainty_notes: "Awaiting urine culture confirmation for definitive diagnosis.",
+    },
     differentials: [
       "Bacterial Cystitis",
       "Urolithiasis",
@@ -223,6 +231,14 @@ export const mockAIResponses: Record<string, ClinicalAIResponse> = {
     progressionMode: "PIVOT",
     summary:
       "Acute vomiting presentation consistent with gastritis/dietary indiscretion or pancreatitis. Initial diagnostics to guide management with supportive care approach.",
+    meta: {
+      finding_confidence: "uncertain",
+      evidence_strength: "limited",
+      source_class: "Clinical Experience",
+      reasoning_type: "Inductive",
+      explanation: "Multiple differentials possible; prioritizing obstruction rule-out and stabilization.",
+      uncertainty_notes: "Multiple differentials remain; pending radiographic and lab results.",
+    },
     differentials: [
       "Acute gastritis / dietary indiscretion",
       "Pancreatitis",
@@ -339,6 +355,13 @@ export const mockAIResponses: Record<string, ClinicalAIResponse> = {
   "C-2023-002": {
     summary:
       "Healthy 2-year-old feline presenting for routine annual wellness examination. No abnormalities detected on physical exam.",
+    meta: {
+      finding_confidence: "definitive",
+      evidence_strength: "strong",
+      source_class: "Physical Examination",
+      reasoning_type: "Observational",
+      explanation: "Routine wellness visit; standard preventive care guidelines apply.",
+    },
     differentials: [],
     redFlags: [],
     nextSteps: [],

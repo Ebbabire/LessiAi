@@ -109,7 +109,19 @@ export interface ReadinessStatus {
   unlockCondition: string; // e.g., "Update patient record in VitalRads"
 }
 
-// 6. Main AI Response
+// 6. Trust Metadata (Lassi Sources & Trust Doctrine v1.0)
+export interface TrustMetadata {
+  finding_confidence: "definitive" | "suggestive" | "uncertain";
+  evidence_strength: "strong" | "moderate" | "limited" | "extrapolated";
+  source_class: string; // e.g. "Clinical Guidelines"
+  reasoning_type: string; // e.g. "Deductive", "Inductive"
+  explanation: string; // Human-readable explanation of why this content is shown
+  uncertainty_notes?: string;
+  is_suppressed?: boolean;
+  suppression_reason?: string;
+}
+
+// 7. Main AI Response
 export interface ClinicalAIResponse {
   summary: string;
   differentials: string[];
@@ -122,4 +134,5 @@ export interface ClinicalAIResponse {
   treatments: TreatmentItem[]; // Dedicated array
   progressionMode?: ProgressionMode; // ADVANCE | PIVOT | MONITOR | ESCALATE
   readiness?: ReadinessStatus; // Backend-determined readiness gate
+  meta?: TrustMetadata; // Global trust for the whole analysis
 }

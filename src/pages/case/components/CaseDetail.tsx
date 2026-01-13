@@ -134,10 +134,12 @@ export const CaseDetail = ({ caseData }: CaseDetailProps) => {
                 <ReasoningPanel reasoningResponse={aiResponse} />
                 <DiagnosticsPanel
                   diagnosticsResponse={aiResponse?.diagnostics}
+                  trustData={aiResponse?.meta}
                 />
                 <TreatmentPanel
                   treatmentResponse={aiResponse?.treatments}
                   progressionMode={aiResponse?.progressionMode}
+                  trustData={aiResponse?.meta}
                 />
                 <OpsIntelPanel />
               </>

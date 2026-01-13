@@ -1,6 +1,9 @@
 import { useCaseContext } from "@/hooks/useCaseContext";
 
-import type { DiagnosticItem as DiagnosticItemType } from "../../../../type/intelligence";
+import type {
+  DiagnosticItem as DiagnosticItemType,
+  TrustMetadata,
+} from "../../../../type/intelligence";
 
 import { PanelShell } from "@/components/ui/PanelShell";
 import { DiagnosticItem } from "./DiagnosticsItem";
@@ -9,9 +12,11 @@ import { SuccessCard } from "@/components/ui/SuccessCard";
 
 export interface DiagnosticsPanelProps {
   diagnosticsResponse: DiagnosticItemType[];
+  trustData?: TrustMetadata;
 }
 export const DiagnosticsPanel = ({
   diagnosticsResponse,
+  trustData,
 }: DiagnosticsPanelProps) => {
   const { expandedPanels, togglePanel, activeCaseId } = useCaseContext();
 
@@ -25,6 +30,7 @@ export const DiagnosticsPanel = ({
       icon={<LucideMicroscope className="h-5 w-5 text-[#9BA3AF]" />}
       telemetryLabel="diagnostics_panel_viewed"
       caseId={activeCaseId}
+      trustData={trustData}
     >
       {diagnostics.length === 0 ? (
         <SuccessCard
